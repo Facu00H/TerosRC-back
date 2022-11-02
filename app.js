@@ -8,9 +8,11 @@ const logger = require('morgan');
 require('./configs/BD');
 const cors = require('cors');
 const helmet = require('helmet');
+const connectionDB = require('./configs/BD');
+const {urlencoded} = require('express');
 
 const indexRouter = require('./routes/index');
-
+connectionDB();
 const app = express();
 
 // view engine setup
@@ -19,8 +21,10 @@ app.set('view engine', 'ejs');
 
 // Security
 app.use(cors());
-app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({policy: 'cross-origin'}));
 
+app.use(express.static(__dirname + 'public'));
+app.use(urlencoded({extended: true}));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));

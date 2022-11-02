@@ -12,7 +12,7 @@ const clubController = {
       });
     } else {
       try {
-        club = await new Club(req.body).save();
+        club = await new Club({name: name, img: req.file}).save();
         return res.status(201).json({
           message: 'Club created',
           response: club,
